@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Sederhana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .calculator {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            padding: 20px;
+            width: 320px;
+        }
+
+        .calculator h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .display {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 2rem;
+            padding: 10px;
+            width: 93%;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .button {
+            background: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            padding: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #ddd;
+        }
+
+        .button.operator {
+            background: #ff9500;
+            color: #fff;
+        }
+
+        .button.operator:hover {
+            background: #e68900;
+        }
+
+        .button.triple {
+            grid-column: span 3;
+        }
+
+        .button.equal {
+            background: #00c853;
+            color: #fff;
+            grid-column: span 2;
+        }
+
+        .button.equal:hover {
+            background: #009624;
+        }
+
+        .button.triplerow {
+            grid-row: span 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Kalkulator</h1>
+        <input type="text" id="display" class="display" disabled>
+
+        <div class="button-container">
+            <button class="button operator" onclick="clearDisplay()">C</button>
+            <button class="button operator" onclick="appendOperator('/')">÷</button>
+            <button class="button operator" onclick="appendOperator('*')">x</button>
+            <button class="button operator" onclick="appendOperator('-')">-</button>
+
+            <button class="button" onclick="appendNumber('7')">7</button>
+            <button class="button" onclick="appendNumber('8')">8</button>
+            <button class="button" onclick="appendNumber('9')">9</button>
+            <button class="button operator" onclick="appendOperator('+')">+</button>
+
+            <button class="button" onclick="appendNumber('4')">4</button>
+            <button class="button" onclick="appendNumber('5')">5</button>
+            <button class="button" onclick="appendNumber('6')">6</button>
+            <button class="button triplerow operator" onclick="calculateResult()">=</button>
+
+            <button class="button" onclick="appendNumber('1')">1</button>
+            <button class="button" onclick="appendNumber('2')">2</button>
+            <button class="button" onclick="appendNumber('3')">3</button>
+
+            <button class="button triple" onclick="appendNumber('0')">0</button>
+            <button class="button" onclick="appendNumber('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        function appendNumber(number) {
+            const display = document.getElementById('display');
+            if (display.value === '0' && number !== '.') {
+                display.value = number;
+            } else {
+                display.value += number;
+            }
+        }
+
+        function appendOperator(operator) {
+            const display = document.getElementById('display');
+            const lastChar = display.value.slice(-1);
+            if ('+-*/'.includes(lastChar)) {
+                display.value = display.value.slice(0, -1);
+            }
+            display.value += operator;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculateResult() {
+            const display = document.getElementById('display');
+            try {
+                display.value = eval(display.value);
+            } catch {
+                display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
